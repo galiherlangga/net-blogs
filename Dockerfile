@@ -1,21 +1,15 @@
-# Use the official .NET SDK image for building
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-# Copy the project file and restore dependencies
-COPY app.csproj ./
-RUN dotnet restore
-
-# Copy the remaining files and build the application
+# Copy everything
 COPY . ./
+# Restore as distinct layers
+RUN dotnet restore
+# Build and publish a release
 RUN dotnet publish -c Release -o out
 
-# Build the runtime image
-FROM mcr.microsoft.com/dotnet/runtime:5.0 AS runtime
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-
-# Copy the published output from the build stage
-COPY --from=build /app/out ./
-
-# Set the entry point
+COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "app.dll"]

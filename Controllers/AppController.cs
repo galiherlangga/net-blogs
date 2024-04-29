@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.Controller {
     [ApiController]
     [Route("api/[controller]")]
-    public class AppController : Controller {
+    public class AppController : ControllerBase {
         [HttpGet]
-        public IActionResult Index() {
+        public IActionResult Get() {
+            return Ok("Hello World 1");
+        }
+
+        [HttpPost]
+        public IActionResult Post() {
             return Ok("Hello World");
         }
     }
