@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Controller {
+namespace App.Controllers {
     [ApiController]
     [Route("api/[controller]")]
-    public class AppController : Controller {
+    public class AppController : ControllerBase {
         [HttpGet]
         public IActionResult Index() {
             return Ok("Hello World");
